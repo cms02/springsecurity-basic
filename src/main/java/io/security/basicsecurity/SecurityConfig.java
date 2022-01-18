@@ -2,6 +2,7 @@ package io.security.basicsecurity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,6 +30,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
+@Order(0)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -43,14 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+//        http
+//                .authorizeRequests()
 //                .antMatchers("/login").permitAll()
 //                .antMatchers("/user").hasRole("USER")
 //                .antMatchers("/admin/pay").hasRole("ADMIN")
 //                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SYS')")
 //                .anyRequest().authenticated();
-                .anyRequest().permitAll();
+//                .anyRequest().permitAll();
 //        http
 //                .formLogin()
 //                .successHandler(new AuthenticationSuccessHandler() {
@@ -78,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                        response.sendRedirect("/denied");
 //                    }
 //                })
-//        ;
+        ;
 //        http
 //                .csrf().disable();
 //                .loginProcessingUrl("/login_proc")
@@ -132,7 +134,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .maxSessionsPreventsLogin(false)
 //                .sessionFixation().changeSessionId(); //default
         ;
-
+        http
+                .authorizeRequests()
+                .anyRequest().authenticated()
+        .and()
+                .formLogin();
     }
-
 }
+//@Configuration
+//@Order(1)
+//class SecurityConfig2 extends WebSecurityConfigurerAdapter{
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests()
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin();
+//
+//    }
+//}
